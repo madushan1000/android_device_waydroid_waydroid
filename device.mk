@@ -30,7 +30,6 @@ PRODUCT_PACKAGES += \
     audio.primary.waydroid \
     audio.r_submix.default \
     audio.usb.default \
-    audio.a2dp.default \
     libasound_module_pcm_pulse \
     libasound_module_ctl_pulse \
     libasound_module_conf_pulse
@@ -61,6 +60,9 @@ PRODUCT_PACKAGES += \
     android.hardware.graphics.mapper@2.0-impl-2.1 \
     vendor.waydroid.task@1.0-service \
     hwcomposer.waydroid
+
+    # android.hardware.graphics.allocator@4.0-service.minigbm_gbm_mesa \
+    # android.hardware.graphics.mapper@4.0-impl.minigbm_gbm_mesa \
 
 PRODUCT_PACKAGES += \
     libEGL_swiftshader \
@@ -126,15 +128,15 @@ PRODUCT_COPY_FILES += \
     frameworks/av/media/libstagefright/data/media_codecs_google_video.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs_google_video.xml
 
 # Media - Stagefright FFMPEG plugin
-ifneq ($(filter %_waydroid_x86 %_waydroid_x86_64,$(TARGET_PRODUCT)),)
-PRODUCT_PACKAGES += \
-    libffmpeg_omx \
-    media_codecs_ffmpeg.xml
+# ifneq ($(filter %_waydroid_x86 %_waydroid_x86_64,$(TARGET_PRODUCT)),)
+# PRODUCT_PACKAGES += \
+#     libffmpeg_omx \
+#     media_codecs_ffmpeg.xml
 
-PRODUCT_PROPERTY_OVERRIDES += \
-    media.sf.omx-plugin=libffmpeg_omx.so \
-    media.sf.hwaccel=1
-endif
+# PRODUCT_PROPERTY_OVERRIDES += \
+#     media.sf.omx-plugin=libffmpeg_omx.so \
+#     media.sf.hwaccel=1
+# endif
 
 # Memtrack
 PRODUCT_PACKAGES += \
@@ -196,9 +198,9 @@ PRODUCT_PACKAGES += \
 PRODUCT_SOONG_NAMESPACES += \
     $(LOCAL_PATH)
 
-# VNDK
-PRODUCT_PACKAGES += \
-    ld.config.vndk_lite.txt
+# # VNDK
+# PRODUCT_PACKAGES += \
+#     ld.config.vndk_lite.txt
 
 # Binder IPC
 PRODUCT_PACKAGES += \
@@ -208,6 +210,16 @@ ifeq ($(filter %_waydroid_x86 %_waydroid_x86_64,$(TARGET_PRODUCT)),)
 PRODUCT_EXTRA_VNDK_VERSIONS := 28 29
 endif
 
-# Updater
+# # Updater
+# PRODUCT_PACKAGES += \
+#     WaydroidUpdater
+
 PRODUCT_PACKAGES += \
-    WaydroidUpdater
+    linker.vendor_ramdisk \
+    shell_and_utilities_vendor_ramdisk \
+
+PRODUCT_PACKAGES += adbd.vendor_ramdisk
+
+PRODUCT_PACKAGES += input.evdev.default
+
+PRODUCT_PACKAGES += android.hardware.graphics.composer3-service.waydroid
